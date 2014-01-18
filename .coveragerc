@@ -1,0 +1,4 @@
+[run]
+source = transaction_hooks
+omit = transaction_hooks/test/*
+branch = 1

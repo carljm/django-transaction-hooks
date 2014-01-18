@@ -1,0 +1,11 @@
+# Requirements for running django-transaction-hooks tests
+
+Django>=1.6.1
+
+tox==1.6.1
+virtualenv==1.11
+pytest-django==2.5
+pytest==2.5.1
+py==1.4.19
+coverage == 3.7.1
+psycopg2==2.5.2
