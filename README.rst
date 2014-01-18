@@ -2,6 +2,10 @@
 django-transaction-hooks
 ============================
 
+.. image:: https://secure.travis-ci.org/carljm/django-transaction-hooks.png?branch=master
+   :target: http://travis-ci.org/carljm/django-transaction-hooks
+.. image:: https://coveralls.io/repos/carljm/django-transaction-hooks/badge.png?branch=master
+   :target: https://coveralls.io/r/carljm/django-transaction-hooks
 .. image:: https://pypip.in/v/django-transaction-hooks/badge.png
    :target: https://pypi.python.org/pypi/django-transaction-hooks
 
