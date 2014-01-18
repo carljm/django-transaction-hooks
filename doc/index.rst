@@ -10,8 +10,7 @@ invalidation.
 
 Doing this correctly while accounting for savepoints that might be individually
 rolled back, closed/dropped connections, and idiosyncrasies of various
-databases, `is hard`_. Transaction signals don't make it easier to do it right,
-they just make it easier to do it wrong.
+databases, `is hard`_. Transaction signals just make it easier to do it wrong.
 
 ``django-transaction-hooks`` does the heavy lifting so you don't have to.
 
