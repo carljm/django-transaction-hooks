@@ -4,6 +4,13 @@ Contributing
 Thanks for your interest in contributing! The advice below will help you get
 your issue fixed / pull request merged.
 
+Please file bugs and send pull requests to the `GitHub repository`_ and `issue
+tracker`_.
+
+.. _GitHub repository: https://github.com/carljm/django-transaction-hooks/
+.. _issue tracker: https://github.com/carljm/django-transaction-hooks/issues
+
+
 
 Submitting Issues
 -----------------

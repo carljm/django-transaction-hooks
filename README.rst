@@ -28,8 +28,7 @@ django-transaction-hooks``.
 Contributing
 ============
 
-Please file bugs and send pull requests to the `GitHub repository`_ and `issue
-tracker`_.
+See the `contributing docs`_.
 
-.. _GitHub repository: https://github.com/carljm/django-transaction-hooks/
-.. _issue tracker: https://github.com/carljm/django-transaction-hooks/issues
+.. _contributing docs: https://github.com/carljm/django-transaction-hooks/blob/master/CONTRIBUTING.rst
+
