@@ -40,7 +40,8 @@ class TransactionHooksDatabaseWrapperMixin(object):
 
 
     def savepoint_rollback(self, sid, *a, **kw):
-        super(TransactionHooksDatabaseWrapperMixin, self).savepoint_rollback(sid, *a, **kw)
+        super(TransactionHooksDatabaseWrapperMixin, self).savepoint_rollback(
+            sid, *a, **kw)
 
         # remove any callbacks registered while this savepoint was active
         self.run_on_commit = list(filter(
@@ -48,7 +49,7 @@ class TransactionHooksDatabaseWrapperMixin(object):
 
 
     def rollback(self, *a, **kw):
-        super(TransactionHooksDatabaseWrapperMixin, self).connect(*a, **kw)
+        super(TransactionHooksDatabaseWrapperMixin, self).rollback(*a, **kw)
 
         self.run_on_commit = []
 

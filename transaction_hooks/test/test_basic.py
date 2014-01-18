@@ -3,6 +3,8 @@ from django.db import connection
 from django.db.transaction import atomic
 import pytest
 
+from .models import Thing
+
 
 # Make sure Django app registry is ready (in 1.7+); workaround for
 # pytest-django not being updated to 1.7+ yet.
@@ -14,21 +16,36 @@ def setup_django():
 
 
 
-class CallTrack(object):
-    """An object that can be called, and tracks its calls."""
+class Tracker(object):
+    """Simulate the pattern of creating a DB object and notifying about it."""
     def __init__(self):
-        self.calls = []
+        self.notified = []
 
 
-    def __call__(self, id_):
-        self.calls.append(id_)
+    def notify(self, id_):
+        self.notified.append(id_)
+
+
+    def do(self, num):
+        """Create a Thing instance and notify about it."""
+        Thing.objects.create(num=num)
+        connection.on_commit(lambda: self.notify(num))
+
+
+    def assert_done(self, nums):
+        self.assert_notified(nums)
+        assert sorted(t.num for t in Thing.objects.all()) == sorted(nums)
+
+
+    def assert_notified(self, nums):
+        assert self.notified == nums
 
 
 
 @pytest.fixture
 def track():
-    """Return a new ``CallTrack`` instance."""
-    return CallTrack()
+    """Return a new ``Tracker`` instance."""
+    return Tracker()
 
 
 
@@ -39,57 +56,63 @@ class ForcedError(Exception):
 
 @pytest.mark.usefixtures('transactional_db')
 class TestConnectionOnCommit(object):
-    """Tests for connection.on_commit()."""
+    """
+    Tests for connection.on_commit().
+
+    Creation/checking of database objects in parallel with callback tracking is
+    to verify that the behavior of the two match in all tested cases.
+
+    """
     def test_executes_immediately_if_no_transaction(self, track):
-        connection.on_commit(lambda: track(1))
-        assert track.calls == [1]
+        track.do(1)
+        track.assert_done([1])
 
 
     def test_delays_execution_until_after_transaction_commit(self, track):
         with atomic():
-            connection.on_commit(lambda: track(1))
-            assert not track.calls
-        assert track.calls == [1]
+            track.do(1)
+            track.assert_notified([])
+        track.assert_done([1])
 
 
     def test_does_not_execute_if_transaction_rolled_back(self, track):
         try:
             with atomic():
-                connection.on_commit(lambda: track(1))
+                track.do(1)
                 raise ForcedError()
         except ForcedError:
             pass
 
-        assert not track.calls
+        track.assert_done([])
 
 
     def test_executes_only_after_final_transaction_committed(self, track):
         with atomic():
             with atomic():
-                connection.on_commit(lambda: track(1))
-                assert not track.calls
-            assert not track.calls
-        assert track.calls == [1]
+                track.do(1)
+                track.assert_notified([])
+            track.assert_notified([])
+        track.assert_done([1])
 
 
     def test_discards_hooks_from_rolled_back_savepoint(self, track):
         with atomic():
             # one successful savepoint
             with atomic():
-                connection.on_commit(lambda: track(1))
+                track.do(1)
             # one failed savepoint
             try:
                 with atomic():
-                    connection.on_commit(lambda: track(2))
+                    track.do(2)
                     raise ForcedError()
             except ForcedError:
                 pass
             # another successful savepoint
             with atomic():
-                connection.on_commit(lambda: track(3))
+                track.do(3)
 
         # only hooks registered during successful savepoints execute
-        assert track.calls == [1, 3]
+        track.assert_done([1, 3])
 
 
     def test_no_hooks_run_from_failed_transaction(self, track):
@@ -97,12 +120,12 @@ class TestConnectionOnCommit(object):
         try:
             with atomic():
                 with atomic():
-                    connection.on_commit(lambda: track(1))
+                    track.do(1)
                 raise ForcedError()
         except ForcedError:
             pass
 
-        assert not track.calls
+        track.assert_done([])
 
 
     def test_inner_savepoint_rolled_back_with_outer(self, track):
@@ -110,82 +133,82 @@ class TestConnectionOnCommit(object):
             try:
                 with atomic():
                     with atomic():
-                        connection.on_commit(lambda: track(1))
+                        track.do(1)
                     raise ForcedError()
             except ForcedError:
                 pass
-            connection.on_commit(lambda: track(2))
+            track.do(2)
 
-        assert track.calls == [2]
+        track.assert_done([2])
 
 
     def test_no_savepoints_atomic_merged_with_outer(self, track):
         with atomic():
             with atomic():
-                connection.on_commit(lambda: track(1))
+                track.do(1)
                 try:
                     with atomic(savepoint=False):
                         raise ForcedError()
                 except ForcedError:
                     pass
 
-        assert not track.calls
+        track.assert_done([])
 
 
     def test_inner_savepoint_does_not_affect_outer(self, track):
         with atomic():
             with atomic():
-                connection.on_commit(lambda: track(1))
+                track.do(1)
                 try:
                     with atomic():
                         raise ForcedError()
                 except ForcedError:
                     pass
 
-        assert track.calls == [1]
+        track.assert_done([1])
+
+
+    def test_runs_hooks_in_order_registered(self, track):
+        with atomic():
+            track.do(1)
+            with atomic():
+                track.do(2)
+            track.do(3)
+
+        track.assert_done([1, 2, 3])
 
 
     def test_hooks_cleared_after_successful_commit(self, track):
         with atomic():
-            connection.on_commit(lambda: track(1))
+            track.do(1)
         with atomic():
-            connection.on_commit(lambda: track(2))
+            track.do(2)
 
-        assert track.calls == [1, 2] # not [1, 1, 2]
+        track.assert_done([1, 2]) # not [1, 1, 2]
 
 
     def test_hooks_cleared_after_rollback(self, track):
         try:
             with atomic():
-                connection.on_commit(lambda: track(1))
+                track.do(1)
                 raise ForcedError()
         except ForcedError:
             pass
 
         with atomic():
-            connection.on_commit(lambda: track(2))
+            track.do(2)
 
-        assert track.calls == [2]
+        track.assert_done([2])
 
 
     def test_hooks_cleared_on_reconnect(self, track):
         with atomic():
-            connection.on_commit(lambda: track(1))
+            track.do(1)
             connection.close()
 
         connection.connect()
 
         with atomic():
-            connection.on_commit(lambda: track(2))
+            track.do(2)
 
-        assert track.calls == [2]
-
-
-    def test_runs_hooks_in_order_registered(self, track):
-        with atomic():
-            connection.on_commit(lambda: track(1))
-            with atomic():
-                connection.on_commit(lambda: track(2))
-            connection.on_commit(lambda: track(3))
-
-        assert track.calls == [1, 2, 3]
+        track.assert_done([2])
