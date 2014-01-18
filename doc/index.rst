@@ -26,7 +26,7 @@ Prerequisites
 ``django-transaction-hooks`` supports `Django`_ 1.6.1 and later on Python 2.6,
 2.7, 3.2, and 3.3.
 
-SQLite3, PostgreSQL, and MySQL are currently the only database with built-in
+SQLite3, PostgreSQL, and MySQL are currently the only databases with built-in
 support; you can experiment with whether it works for your favorite database
 backend with just `a few lines of code`_.
 
@@ -49,7 +49,7 @@ Setup
 ``django-transaction-hooks`` is implemented via custom database backends. (`Why
 backends?`_)
 
-Currently the only included backend is for PostgreSQL; to use it, set the
+For example, to use the PosgreSQL backend, set the
 ``ENGINE`` in your ``DATABASES`` setting to
 ``transaction_hooks.backends.postgresql_psycopg2`` (in place of
 ``django.db.backends.postgresql_psycopg2``). For example::
@@ -61,6 +61,7 @@ Currently the only included backend is for PostgreSQL; to use it, set the
             },
         }
 
+MySQL and SQLite are similarly supported.
 
 .. _a few lines of code:
 .. _the mixin:
