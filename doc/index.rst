@@ -25,9 +25,9 @@ Prerequisites
 ``django-transaction-hooks`` supports `Django`_ 1.6.1 and later on Python 2.6,
 2.7, 3.2, and 3.3.
 
-PostgreSQL is currently the only database with built-in support; you can
-experiment with whether it works for your favorite database with just `a few
-lines of code`_.
+SQLite3, PostgreSQL, and MySQL are currently the only database with built-in
+support; you can experiment with whether it works for your favorite database
+backend with just `a few lines of code`_.
 
 .. _Django: http://www.djangoproject.com/
 
@@ -67,9 +67,12 @@ Currently the only included backend is for PostgreSQL; to use it, set the
 Using the mixin
 ~~~~~~~~~~~~~~~
 
-If you're using Postgres, you can skip this section. Not using Postgres? No
-worries - all the magic happens in a mixin, so making it happen with your
-favorite database may not be hard (no guarantees it'll work right, though.)
+If you're currently using Django's built-in database backend for SQLite,
+Postgres, or MySQL, you can skip this section.
+
+Not using one of those? No worries - all the magic happens in a mixin, so
+making it happen with your favorite database backend may not be hard (no
+guarantees it'll work right, though.)
 
 You'll need to create your own custom backend that inherits both from
 ``transaction_hooks.mixin.TransactionHooksDatabaseWrapperMixin`` and from the
@@ -85,8 +88,8 @@ this::
                           base.DatabaseWrapper):
         pass
 
-Obviously you'll want to replace postgresql_psycopg2 with whatever existing
-backend you are currently using.
+Obviously you'll want to replace ``django.db.backends.postgresql_psycopg2``
+with whatever existing backend you are currently using.
 
 Then just set your database ``ENGINE`` (as above) to the Python dotted path to
 the package containing that ``base.py`` module. For example, if you put the

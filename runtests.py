@@ -5,6 +5,6 @@ import os
 import sys
 
 os.environ.setdefault(
-    'DJANGO_SETTINGS_MODULE', 'transaction_hooks.test.settings_pg')
+    'DJANGO_SETTINGS_MODULE', 'transaction_hooks.test.settings_sqlite3')
 
 sys.exit(pytest.main())

@@ -51,8 +51,7 @@ To run the tests once::
 
     ./runtests.py
 
-(This runs the tests on Postgres; you must have a local Postgres server with a
-database named "dtc".)
+(This runs the tests on SQLite.)
 
 To run tox (which runs the tests across all supported Python and Django
 versions and databases) and generate a coverage report in the ``htmlcov/``
@@ -62,3 +61,6 @@ directory::
 
 This requires that you have ``python2.6``, ``python2.7``, ``python3.2``, and
 ``python3.3`` binaries on your system's shell path.
+
+It also requires that you have local PostgreSQL and MySQL servers running with
+a ``dtc`` database on each.
