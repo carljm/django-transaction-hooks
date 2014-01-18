@@ -1,6 +1,5 @@
-include AUTHORS.rst
+B1;2802;0cinclude AUTHORS.rst
 include CHANGES.rst
 include LICENSE.txt
 include MANIFEST.in
 include README.rst
-include TODO.rst
