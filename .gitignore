@@ -2,3 +2,4 @@ django_transaction_hooks.egg-info/
 htmlcov/
 .tox/
 doc/_build/
+dist/

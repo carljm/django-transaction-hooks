@@ -1,4 +1,4 @@
-B1;2802;0cinclude AUTHORS.rst
+include AUTHORS.rst
 include CHANGES.rst
 include LICENSE.txt
 include MANIFEST.in
