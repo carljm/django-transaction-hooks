@@ -23,6 +23,8 @@ class Tracker(object):
 
 
     def notify(self, id_):
+        if id_ == 'error':
+            raise ForcedError()
         self.notified.append(id_)
 
 
@@ -212,3 +214,16 @@ class TestConnectionOnCommit(object):
             track.do(2)
 
         track.assert_done([2])
+
+
+    def test_error_in_hook_doesnt_prevent_clearing_hooks(self, track):
+        try:
+            with atomic():
+                connection.on_commit(lambda: track.notify('error'))
+        except ForcedError:
+            pass
+
+        with atomic():
+            track.do(1)
+
+        track.assert_done([1])

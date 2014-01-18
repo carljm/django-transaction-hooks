@@ -30,10 +30,11 @@ class TransactionHooksDatabaseWrapperMixin(object):
 
 
     def run_and_clear_commit_hooks(self):
-        for sids, func in self.run_on_commit:
-            func()
-
-        self.run_on_commit = []
+        try:
+            for sids, func in self.run_on_commit:
+                func()
+        finally:
+            self.run_on_commit = []
 
 
     def commit(self, *a, **kw):

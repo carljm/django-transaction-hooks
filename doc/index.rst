@@ -125,6 +125,9 @@ Notes
 This code is new, not yet battle-tested, and probably has bugs. You've been
 warned.
 
+If an on-commit hook in a given transaction raises an uncaught exception, no
+later-registered hooks in that same transaction will run.
+
 If you use `South`_, you will probably need to set the
 `SOUTH_DATABASE_ADAPTERS`_ setting when you switch to a custom database backend
 (e.g. to ``{'default': 'south.db.postgresql_psycopg2'}``, if you are using
