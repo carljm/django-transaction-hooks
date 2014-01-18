@@ -152,15 +152,15 @@ nested ``atomic`` block) will be called after the outer transaction is
 committed, but not if a rollback to that savepoint or any previous savepoint
 occurred during the transaction.
 
-Your hook functions are executed _after_ a successful commit, so if they fail,
+Your hook functions are executed *after* a successful commit, so if they fail,
 it will not cause the transaction to roll back. That is, they are executed
-conditionally upon the success of the transaction, but they are not _part_ of
+conditionally upon the success of the transaction, but they are not *part* of
 the transaction. For the intended use cases (mail notifications, Celery tasks,
 etc), this is probably fine. If it's not (that is, if your follow-up action is
 so critical that its failure should mean the failure of the transaction
 itself), then you don't want ``django-transaction-hooks``. (Instead, you may
-want to trigger the action via a database write and make it properly part of
-the transaction, or you may want `two-phase commit`_.
+want to trigger the action via a database write and thus make it properly part
+of the transaction, or you may want `two-phase commit`_.)
 
 .. _two-phase commit: http://en.wikipedia.org/wiki/Two-phase_commit_protocol
 
