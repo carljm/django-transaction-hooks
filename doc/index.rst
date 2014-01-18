@@ -10,13 +10,14 @@ invalidation.
 
 Doing this correctly while accounting for savepoints that might be individually
 rolled back, closed/dropped connections, and idiosyncrasies of various
-databases, `is hard`_. Transaction signals just make it easier to do it wrong.
+databases, `is non-trivial`_. Transaction signals just make it easier to do it
+wrong.
 
 ``django-transaction-hooks`` does the heavy lifting so you don't have to.
 
 .. _will never have: https://code.djangoproject.com/ticket/14051
 .. _Celery: http://www.celeryproject.org/
-.. _is hard: https://github.com/aaugustin/django-transaction-signals
+.. _is non-trivial: https://github.com/aaugustin/django-transaction-signals
 
 
 Prerequisites
