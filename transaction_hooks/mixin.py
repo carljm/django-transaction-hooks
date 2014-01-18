@@ -29,14 +29,17 @@ class TransactionHooksDatabaseWrapperMixin(object):
             func()
 
 
-
-    def commit(self, *a, **kw):
-        super(TransactionHooksDatabaseWrapperMixin, self).commit(*a, **kw)
-
+    def run_and_clear_commit_hooks(self):
         for sids, func in self.run_on_commit:
             func()
 
         self.run_on_commit = []
+
+
+    def commit(self, *a, **kw):
+        super(TransactionHooksDatabaseWrapperMixin, self).commit(*a, **kw)
+
+        self.run_and_clear_commit_hooks()
 
 
     def savepoint_rollback(self, sid, *a, **kw):
