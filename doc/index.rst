@@ -125,6 +125,23 @@ Notes
 This code is new, not yet battle-tested, and probably has bugs. You've been
 warned.
 
+If you use `South`_, you will probably need to set the
+`SOUTH_DATABASE_ADAPTERS`_ setting when you switch to a custom database backend
+(e.g. to ``{'default': 'south.db.postgresql_psycopg2'}``, if you are using
+PostgreSQL).
+
+.. _South: http://south.readthedocs.org
+.. _SOUTH_DATABASE_ADAPTERS: http://south.readthedocs.org/en/latest/settings.html#south-database-adapters
+
+Django's `TestCase`_ class wraps each test in a transaction and rolls back that
+transaction after each test, in order to provide test isolation. This means
+that no transaction is ever actually committed, thus your ``on_commit`` hooks
+will never be run. If you need to test the results of an ``on_commit`` hook,
+you may need to use `TransactionTestCase`_ instead.
+
+.. _TestCase: https://docs.djangoproject.com/en/dev/topics/testing/tools/#django.test.TestCase
+.. _TransactionTestCase: https://docs.djangoproject.com/en/dev/topics/testing/tools/#transactiontestcase
+
 Savepoints (i.e. nested ``transaction.atomic`` blocks) are handled
 correctly. That is, an ``on_commit`` hook registered after a savepoint (in a
 nested ``atomic`` block) will be called after the outer transaction is
