@@ -6,16 +6,6 @@ import pytest
 from .models import Thing
 
 
-# Make sure Django app registry is ready (in 1.7+); workaround for
-# pytest-django not being updated to 1.7+ yet.
-@pytest.mark.tryfirst
-@pytest.fixture(scope='session', autouse=True)
-def setup_django():
-    setup = getattr(django, 'setup', lambda: None)
-    setup()
-
-
-
 class Tracker(object):
     """Simulate the pattern of creating a DB object and notifying about it."""
     def __init__(self):
