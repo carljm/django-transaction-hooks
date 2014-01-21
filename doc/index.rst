@@ -152,6 +152,22 @@ is, of course, the same behavior as if you'd executed the hooks sequentially
 yourself without ``on_commit()``.)
 
 
+Timing of execution
+'''''''''''''''''''
+
+Your hook functions are executed *after* a successful commit, so if they fail,
+it will not cause the transaction to roll back. They are executed conditionally
+upon the success of the transaction, but they are not *part* of the
+transaction. For the intended use cases (mail notifications, Celery tasks,
+etc), this is probably fine. If it's not (if your follow-up action is so
+critical that its failure should mean the failure of the transaction itself),
+then you don't want ``django-transaction-hooks``. (Instead, you may want to
+trigger the action via a database write and thus make it properly part of the
+transaction, or you may want `two-phase commit`_.)
+
+.. _two-phase commit: http://en.wikipedia.org/wiki/Two-phase_commit_protocol
+
+
 Use with South
 ''''''''''''''
 
@@ -187,22 +203,6 @@ committed, but not if a rollback to that savepoint or any previous savepoint
 occurred during the transaction.
 
 
-Timing of execution
-'''''''''''''''''''
-
-Your hook functions are executed *after* a successful commit, so if they fail,
-it will not cause the transaction to roll back. They are executed conditionally
-upon the success of the transaction, but they are not *part* of the
-transaction. For the intended use cases (mail notifications, Celery tasks,
-etc), this is probably fine. If it's not (if your follow-up action is so
-critical that its failure should mean the failure of the transaction itself),
-then you don't want ``django-transaction-hooks``. (Instead, you may want to
-trigger the action via a database write and thus make it properly part of the
-transaction, or you may want `two-phase commit`_.)
-
-.. _two-phase commit: http://en.wikipedia.org/wiki/Two-phase_commit_protocol
-
-
 .. _why backends?:
 
 Why database backends?
@@ -218,6 +218,20 @@ case, `the mixin`_ should make that less painful.)
 
 If this turns out to be really popular, it might be possible to get something
 like it into the Django core backends, which would remove that issue entirely.
+
+
+Why no rollback hook?
+'''''''''''''''''''''
+
+A rollback hook is even harder to implement robustly than a commit hook, since
+a variety of things can cause an implicit rollback. For instance, your database
+connection was dropped because your process was killed without a chance to
+shutdown gracefully: your rollback hook will never run.
+
+The solution is simple: instead of doing something during the atomic block
+(transaction) and then undoing it if the transaction fails, use ``on_commit``
+to delay doing it in the first place until after the transaction succeeds. It's
+a lot easier to undo something you never did in the first place!
 
 
 Contributing
