@@ -1,4 +1,3 @@
-import django
 from django.db import connection
 from django.db.transaction import atomic
 import pytest
