@@ -136,6 +136,22 @@ Notes
 .. _report it: https://github.com/carljm/django-transaction-hooks/blob/master/CONTRIBUTING.rst
 
 
+Autocommit must be on
+'''''''''''''''''''''
+
+``django-transaction-hooks`` is only built and tested to work correctly in
+`autocommit mode`_, which is the default in Django 1.6+. If you set autocommit
+off on your connection, ``django-transaction-hooks`` likely won't work as you
+expect.
+
+For instance, even though with autocommit off you'll generally be in an
+implicit transaction outside of any ``atomic`` block, callback hooks registered
+outside an ``atomic`` block will still run immediately, not on commit. (And
+this probably isn't the only problem, just the most obvious one.)
+
+.. _autocommit mode: https://docs.djangoproject.com/en/dev/topics/db/transactions/#managing-autocommit
+
+
 Order of execution
 ''''''''''''''''''
 
