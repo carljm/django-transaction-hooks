@@ -136,14 +136,14 @@ Notes
 .. _report it: https://github.com/carljm/django-transaction-hooks/blob/master/CONTRIBUTING.rst
 
 
-Autocommit must be on
-'''''''''''''''''''''
+Use autocommit and transaction.atomic
+'''''''''''''''''''''''''''''''''''''
 
 ``django-transaction-hooks`` is only built and tested to work correctly in
 `autocommit mode`_, which is the default in Django 1.6+, and with the
-`transaction.atomic` transaction API. If you set autocommit off on your
-connection and/or use lower-level transaction APIs directly,
-``django-transaction-hooks`` likely won't work as you expect.
+`transaction.atomic`_ / `ATOMIC_REQUESTS`_ transaction API. If you set
+autocommit off on your connection and/or use lower-level transaction APIs
+directly, ``django-transaction-hooks`` likely won't work as you expect.
 
 For instance, commit hooks are not run until autocommit is restored on the
 connection following the commit (because otherwise any queries done in a commit
@@ -153,10 +153,13 @@ generally be in an implicit transaction outside of any ``atomic`` block,
 callback hooks registered outside an ``atomic`` block will still run
 immediately, not on commit. And there are probably more gotchas here.
 
-Use autocommit mode and `transaction.atomic` and you'll be happier.
+Use autocommit mode and `transaction.atomic`_ (or `ATOMIC_REQUESTS`_) and
+you'll be happier.
 
 
-.. _autocommit mode: https://docs.djangoproject.com/en/dev/topics/db/transactions/#managing-autocommit
+.. _autocommit mode: https://docs.djangoproject.com/en/stable/topics/db/transactions/#managing-autocommit
+.. _transaction.atomic: https://docs.djangoproject.com/en/stable/topics/db/transactions/#django.db.transaction.atomic
+.. _ATOMIC_REQUESTS: https://docs.djangoproject.com/en/stable/topics/db/transactions/#tying-transactions-to-http-requests
 
 
 Order of execution
