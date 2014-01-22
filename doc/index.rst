@@ -140,14 +140,21 @@ Autocommit must be on
 '''''''''''''''''''''
 
 ``django-transaction-hooks`` is only built and tested to work correctly in
-`autocommit mode`_, which is the default in Django 1.6+. If you set autocommit
-off on your connection, ``django-transaction-hooks`` likely won't work as you
-expect.
+`autocommit mode`_, which is the default in Django 1.6+, and with the
+`transaction.atomic` transaction API. If you set autocommit off on your
+connection and/or use lower-level transaction APIs directly,
+``django-transaction-hooks`` likely won't work as you expect.
 
-For instance, even though with autocommit off you'll generally be in an
-implicit transaction outside of any ``atomic`` block, callback hooks registered
-outside an ``atomic`` block will still run immediately, not on commit. (And
-this probably isn't the only problem, just the most obvious one.)
+For instance, commit hooks are not run until autocommit is restored on the
+connection following the commit (because otherwise any queries done in a commit
+hook would open an implicit transaction, preventing the connection from going
+back into autocommit mode). Also, even though with autocommit off you'd
+generally be in an implicit transaction outside of any ``atomic`` block,
+callback hooks registered outside an ``atomic`` block will still run
+immediately, not on commit. And there are probably more gotchas here.
+
+Use autocommit mode and `transaction.atomic` and you'll be happier.
+
 
 .. _autocommit mode: https://docs.djangoproject.com/en/dev/topics/db/transactions/#managing-autocommit
 

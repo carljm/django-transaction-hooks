@@ -18,6 +18,9 @@ class TransactionHooksDatabaseWrapperMixin(object):
         # each entry is an (sids, func) tuple, where sids is a list of the
         # active savepoint IDs when this function was registered
         self.run_on_commit = []
+        # Should we run the on-commit hooks the next time set_autocommit(True)
+        # is called?
+        self.run_commit_hooks_on_set_autocommit_on = False
 
 
     def on_commit(self, func):
@@ -30,6 +33,7 @@ class TransactionHooksDatabaseWrapperMixin(object):
 
 
     def run_and_clear_commit_hooks(self):
+        self.validate_no_atomic_block()
         try:
             for sids, func in self.run_on_commit:
                 func()
@@ -40,7 +44,22 @@ class TransactionHooksDatabaseWrapperMixin(object):
     def commit(self, *a, **kw):
         super(TransactionHooksDatabaseWrapperMixin, self).commit(*a, **kw)
 
-        self.run_and_clear_commit_hooks()
+        # Atomic has not had a chance yet to restore autocommit on this
+        # connection, so on databases that handle autocommit correctly, we need
+        # to wait to run the hooks until it calls set_autocommit(True)
+        if self.features.autocommits_when_autocommit_is_off:
+            self.run_and_clear_commit_hooks()
+        else:
+            self.run_commit_hooks_on_set_autocommit_on = True
+
+
+    def set_autocommit(self, autocommit):
+        super(TransactionHooksDatabaseWrapperMixin, self).set_autocommit(
+            autocommit)
+
+        if autocommit and self.run_commit_hooks_on_set_autocommit_on:
+            self.run_and_clear_commit_hooks()
+            self.run_commit_hooks_on_set_autocommit_on = False
 
 
     def savepoint_rollback(self, sid, *a, **kw):

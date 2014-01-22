@@ -216,3 +216,12 @@ class TestConnectionOnCommit(object):
             track.do(1)
 
         track.assert_done([1])
+
+
+    def test_db_query_in_hook(self, track):
+        with atomic():
+            Thing.objects.create(num=1)
+            connection.on_commit(
+                lambda: [track.notify(t.num) for t in Thing.objects.all()])
+
+        track.assert_done([1])
