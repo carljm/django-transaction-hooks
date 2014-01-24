@@ -12,8 +12,6 @@ class TransactionHooksDatabaseWrapperMixin(object):
 
     """
     def __init__(self, *a, **kw):
-        super(TransactionHooksDatabaseWrapperMixin, self).__init__(*a, **kw)
-
         # a list of no-argument functions to run when the transaction commits;
         # each entry is an (sids, func) tuple, where sids is a list of the
         # active savepoint IDs when this function was registered
@@ -21,6 +19,8 @@ class TransactionHooksDatabaseWrapperMixin(object):
         # Should we run the on-commit hooks the next time set_autocommit(True)
         # is called?
         self.run_commit_hooks_on_set_autocommit_on = False
+
+        super(TransactionHooksDatabaseWrapperMixin, self).__init__(*a, **kw)
 
 
     def on_commit(self, func):
