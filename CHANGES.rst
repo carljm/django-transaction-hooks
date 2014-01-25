@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-master (unreleased)
+0.1.3 (2014.01.24)
 -------------------
 
 * Fix failure when mixing-in with database backends that perform queries in
