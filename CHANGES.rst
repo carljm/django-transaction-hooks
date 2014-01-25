@@ -4,6 +4,10 @@ CHANGES
 master (unreleased)
 -------------------
 
+* Fix failure when mixing-in with database backends that perform queries in
+  ``__init__`` (e.g. PostGIS backend when ``POSTGIS_VERSION`` setting is not
+  set). Merge of GH-6, fixes GH-5. Thanks Niels Sandholt Busch.
+
 
 0.1.2 (2014.01.21)
 ------------------
