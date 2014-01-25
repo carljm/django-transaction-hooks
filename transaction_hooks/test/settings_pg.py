@@ -1,3 +1,5 @@
+import os
+
 from .settings import *
 
 DATABASES = {
@@ -6,3 +8,13 @@ DATABASES = {
         'NAME': 'dtc',
         },
     }
+
+
+if 'DTC_PG_USERNAME' in os.environ:
+    DATABASES['default'].update(
+        {
+            'USER': os.environ['DTC_PG_USERNAME'],
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            }
+        )

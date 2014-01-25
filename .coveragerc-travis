@@ -1,9 +1,0 @@
-# Can only run SQLite tests on Travis, thus must ignore other backends.
-
-[run]
-source = transaction_hooks
-omit =
-    transaction_hooks/test/*
-    transaction_hooks/backends/mysql/*
-    transaction_hooks/backends/postgresql_psycopg2/*
-branch = 1
