@@ -35,7 +35,8 @@ class TransactionHooksDatabaseWrapperMixin(object):
     def run_and_clear_commit_hooks(self):
         self.validate_no_atomic_block()
         try:
-            for sids, func in self.run_on_commit:
+            while self.run_on_commit:
+                sids, func = self.run_on_commit.pop(0)
                 func()
         finally:
             self.run_on_commit = []

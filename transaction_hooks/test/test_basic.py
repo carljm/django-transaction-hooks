@@ -225,3 +225,14 @@ class TestConnectionOnCommit(object):
                 lambda: [track.notify(t.num) for t in Thing.objects.all()])
 
         track.assert_done([1])
+    
+    def test_save_object_in_hook(self, track):
+        with atomic():
+            def on_commit():
+                t = Thing(num=1)
+                t.save()
+                track.notify(t.num)
+                
+            connection.on_commit(on_commit)
+
+        track.assert_done([1])
