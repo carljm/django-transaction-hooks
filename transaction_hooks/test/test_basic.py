@@ -205,13 +205,24 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([1])
 
-    def test_save_object_in_hook(self, track):
-        with atomic():
-            def on_commit():
-                t = Thing(num=1)
-                t.save()
+    # On databases that don't work with autocommit off (SQLite), Atomic doesn't
+    # ever call set_autocommit(True) after committing a transaction (it sets
+    # ``connection.autocommit = True`` directly instead), so we have to run
+    # hooks immediately on commit instead of waiting for autocommit to be
+    # restored. If a hook tries to create an internal transaction of its own,
+    # this fails with an error. Need a better solution here; could be fixed if
+    # transaction-hooks is merged into Django.
+    @pytest.mark.xfail(
+        connection.features.autocommits_when_autocommit_is_off,
+        reason="Can't open transaction in a hook on SQLite",
+    )
+    def test_transaction_in_hook(self, track):
+        def on_commit():
+            with atomic():
+                t = Thing.objects.create(num=1)
                 track.notify(t.num)
 
+        with atomic():
             connection.on_commit(on_commit)
 
         track.assert_done([1])
