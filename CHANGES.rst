@@ -1,8 +1,8 @@
 CHANGES
 =======
 
-master (unreleased)
--------------------
+0.1.4 (2014.05.27)
+------------------
 
 * Make it possible to execute a transaction within an on-commit hook (except on
   SQLite). Merge of GH-9, fixes GH-8. Thanks Marek Malek.
