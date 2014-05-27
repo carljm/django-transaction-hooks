@@ -10,27 +10,22 @@ class Tracker(object):
     def __init__(self):
         self.notified = []
 
-
     def notify(self, id_):
         if id_ == 'error':
             raise ForcedError()
         self.notified.append(id_)
-
 
     def do(self, num):
         """Create a Thing instance and notify about it."""
         Thing.objects.create(num=num)
         connection.on_commit(lambda: self.notify(num))
 
-
     def assert_done(self, nums):
         self.assert_notified(nums)
         assert sorted(t.num for t in Thing.objects.all()) == sorted(nums)
 
-
     def assert_notified(self, nums):
         assert self.notified == nums
-
 
 
 @pytest.fixture
@@ -39,10 +34,8 @@ def track():
     return Tracker()
 
 
-
 class ForcedError(Exception):
     pass
-
 
 
 @pytest.mark.usefixtures('transactional_db')
@@ -58,13 +51,11 @@ class TestConnectionOnCommit(object):
         track.do(1)
         track.assert_done([1])
 
-
     def test_delays_execution_until_after_transaction_commit(self, track):
         with atomic():
             track.do(1)
             track.assert_notified([])
         track.assert_done([1])
-
 
     def test_does_not_execute_if_transaction_rolled_back(self, track):
         try:
@@ -76,7 +67,6 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([])
 
-
     def test_executes_only_after_final_transaction_committed(self, track):
         with atomic():
             with atomic():
@@ -84,7 +74,6 @@ class TestConnectionOnCommit(object):
                 track.assert_notified([])
             track.assert_notified([])
         track.assert_done([1])
-
 
     def test_discards_hooks_from_rolled_back_savepoint(self, track):
         with atomic():
@@ -105,7 +94,6 @@ class TestConnectionOnCommit(object):
         # only hooks registered during successful savepoints execute
         track.assert_done([1, 3])
 
-
     def test_no_hooks_run_from_failed_transaction(self, track):
         """If outer transaction fails, no hooks from within it run."""
         try:
@@ -117,7 +105,6 @@ class TestConnectionOnCommit(object):
             pass
 
         track.assert_done([])
-
 
     def test_inner_savepoint_rolled_back_with_outer(self, track):
         with atomic():
@@ -132,7 +119,6 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([2])
 
-
     def test_no_savepoints_atomic_merged_with_outer(self, track):
         with atomic():
             with atomic():
@@ -144,7 +130,6 @@ class TestConnectionOnCommit(object):
                     pass
 
         track.assert_done([])
-
 
     def test_inner_savepoint_does_not_affect_outer(self, track):
         with atomic():
@@ -158,7 +143,6 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([1])
 
-
     def test_runs_hooks_in_order_registered(self, track):
         with atomic():
             track.do(1)
@@ -168,15 +152,13 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([1, 2, 3])
 
-
     def test_hooks_cleared_after_successful_commit(self, track):
         with atomic():
             track.do(1)
         with atomic():
             track.do(2)
 
-        track.assert_done([1, 2]) # not [1, 1, 2]
-
+        track.assert_done([1, 2])  # not [1, 1, 2]
 
     def test_hooks_cleared_after_rollback(self, track):
         try:
@@ -191,7 +173,6 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([2])
 
-
     def test_hooks_cleared_on_reconnect(self, track):
         with atomic():
             track.do(1)
@@ -203,7 +184,6 @@ class TestConnectionOnCommit(object):
             track.do(2)
 
         track.assert_done([2])
-
 
     def test_error_in_hook_doesnt_prevent_clearing_hooks(self, track):
         try:
@@ -217,7 +197,6 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([1])
 
-
     def test_db_query_in_hook(self, track):
         with atomic():
             Thing.objects.create(num=1)
@@ -225,14 +204,14 @@ class TestConnectionOnCommit(object):
                 lambda: [track.notify(t.num) for t in Thing.objects.all()])
 
         track.assert_done([1])
-    
+
     def test_save_object_in_hook(self, track):
         with atomic():
             def on_commit():
                 t = Thing(num=1)
                 t.save()
                 track.notify(t.num)
-                
+
             connection.on_commit(on_commit)
 
         track.assert_done([1])

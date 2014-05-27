@@ -22,7 +22,6 @@ class TransactionHooksDatabaseWrapperMixin(object):
 
         super(TransactionHooksDatabaseWrapperMixin, self).__init__(*a, **kw)
 
-
     def on_commit(self, func):
         if self.in_atomic_block:
             # transaction in progress; save for execution on commit
@@ -30,7 +29,6 @@ class TransactionHooksDatabaseWrapperMixin(object):
         else:
             # no transaction in progress; execute immediately
             func()
-
 
     def run_and_clear_commit_hooks(self):
         self.validate_no_atomic_block()
@@ -40,7 +38,6 @@ class TransactionHooksDatabaseWrapperMixin(object):
                 func()
         finally:
             self.run_on_commit = []
-
 
     def commit(self, *a, **kw):
         super(TransactionHooksDatabaseWrapperMixin, self).commit(*a, **kw)
@@ -53,7 +50,6 @@ class TransactionHooksDatabaseWrapperMixin(object):
         else:
             self.run_commit_hooks_on_set_autocommit_on = True
 
-
     def set_autocommit(self, autocommit):
         super(TransactionHooksDatabaseWrapperMixin, self).set_autocommit(
             autocommit)
@@ -61,7 +57,6 @@ class TransactionHooksDatabaseWrapperMixin(object):
         if autocommit and self.run_commit_hooks_on_set_autocommit_on:
             self.run_and_clear_commit_hooks()
             self.run_commit_hooks_on_set_autocommit_on = False
-
 
     def savepoint_rollback(self, sid, *a, **kw):
         super(TransactionHooksDatabaseWrapperMixin, self).savepoint_rollback(
@@ -71,18 +66,15 @@ class TransactionHooksDatabaseWrapperMixin(object):
         self.run_on_commit = list(filter(
             lambda x: sid not in x[0], self.run_on_commit))
 
-
     def rollback(self, *a, **kw):
         super(TransactionHooksDatabaseWrapperMixin, self).rollback(*a, **kw)
 
         self.run_on_commit = []
 
-
     def connect(self, *a, **kw):
         super(TransactionHooksDatabaseWrapperMixin, self).connect(*a, **kw)
 
         self.run_on_commit = []
-
 
     def close(self, *a, **kw):
         super(TransactionHooksDatabaseWrapperMixin, self).close(*a, **kw)
