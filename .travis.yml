@@ -6,8 +6,8 @@ python:
   - 3.2
   - 3.3
   - 3.4
-  - pypy
-  - pypy3
+  - "pypy"
+  - "pypy3"
 
 env:
   global:
@@ -62,9 +62,9 @@ matrix:
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=Django>=1.6.0,<1.7.0
    - python: 3.4
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
-   - python: pypy3
+   - python: "pypy3"
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=Django>=1.6.0,<1.7.0
-   - python: pypy3
+   - python: "pypy3"
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
 
 after_success: coveralls
