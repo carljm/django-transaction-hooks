@@ -187,9 +187,8 @@ upon the success of the transaction, but they are not *part* of the
 transaction. For the intended use cases (mail notifications, Celery tasks,
 etc), this is probably fine. If it's not (if your follow-up action is so
 critical that its failure should mean the failure of the transaction itself),
-then you don't want ``django-transaction-hooks``. (Instead, you may want to
-trigger the action via a database write and thus make it properly part of the
-transaction, or you may want `two-phase commit`_.)
+then you don't want ``django-transaction-hooks``. (Instead, you may want
+`two-phase commit`_.)
 
 .. _two-phase commit: http://en.wikipedia.org/wiki/Two-phase_commit_protocol
 
