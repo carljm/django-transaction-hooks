@@ -33,7 +33,7 @@ install:
   - travis_retry pip install coverage==3.7.1 coveralls
   - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION != 'pypy'* ]]; then travis_retry pip install psycopg2==2.5.4; fi
   - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then travis_retry pip install psycopg2cffi==2.5.2; fi
-  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION == 'pypy3' ]]; then travis_retry git+https://github.com/chtd/psycopg2cffi.git@py3-encodings; fi
+  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION == 'pypy3' ]]; then travis_retry pip install git+https://github.com/chtd/psycopg2cffi.git@py3-encodings; fi
   - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_mysql" ]]; then travis_retry pip install MySQL-Python==1.2.5; fi
 
 before_script:
