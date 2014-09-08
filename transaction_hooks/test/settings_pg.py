@@ -1,5 +1,11 @@
 import os
 
+try:
+    from psycopg2cffi import compat
+    compat.register()
+except ImportError:
+    pass
+
 from .settings import *  # noqa
 
 DATABASES = {
