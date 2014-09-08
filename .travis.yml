@@ -5,25 +5,36 @@ python:
   - 2.7
   - 3.2
   - 3.3
+  - 3.4
+  - "pypy"
+  - "pypy3"
 
 env:
   global:
     - DTC_MYSQL_USERNAME=travis
     - DTC_PG_USERNAME=postgres
   matrix:
-    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_sqlite3 DJANGO=Django==1.6.1
+    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_sqlite3 DJANGO='Django>=1.6.0,<1.7.0'
+    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.6.0,<1.7.0'
+    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_pg DJANGO='Django>=1.6.0,<1.7.0'
+    
+    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_sqlite3 DJANGO='Django>=1.7.0,<1.8.0'
+    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.7.0,<1.8.0'
+    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_pg DJANGO='Django>=1.7.0,<1.8.0'
+    
     - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_sqlite3 DJANGO=https://github.com/django/django/tarball/master
-    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=Django==1.6.1
     - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
-    - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_pg DJANGO=Django==1.6.1
     - DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_pg DJANGO=https://github.com/django/django/tarball/master
 
+
 install:
-  - pip install $DJANGO
-  - pip install pytest==2.5.1 pytest-django==2.6.2 py==1.4.19
-  - pip install coverage==3.7.1 coveralls
-  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]]; then pip install psycopg2==2.5.2; fi
-  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_mysql" ]]; then pip install MySQL-Python==1.2.5; fi
+  - travis_retry pip install $DJANGO
+  - travis_retry pip install pytest==2.5.1 pytest-django==2.6.2 py==1.4.19
+  - travis_retry pip install coverage==3.7.1 coveralls
+  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION != 'pypy'* ]]; then travis_retry pip install psycopg2==2.5.4; fi
+  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then travis_retry pip install psycopg2cffi==2.5.2; fi
+  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_pg" ]] && [[ $TRAVIS_PYTHON_VERSION == 'pypy3' ]]; then travis_retry pip install git+https://github.com/chtd/psycopg2cffi.git@py3-encodings; fi
+  - if [[ $DJANGO_SETTINGS_MODULE == "transaction_hooks.test.settings_mysql" ]]; then travis_retry pip install MySQL-Python==1.2.5; fi
 
 before_script:
   - mysql -e 'create database dtc;'
@@ -33,6 +44,7 @@ script:
   - coverage run -a runtests.py transaction_hooks/test --tb short
 
 matrix:
+  fast_finish: true
   exclude:
    - python: 2.6
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_sqlite3 DJANGO=https://github.com/django/django/tarball/master
@@ -40,13 +52,40 @@ matrix:
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
    - python: 2.6
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_pg DJANGO=https://github.com/django/django/tarball/master
+   
+   - python: 2.6
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_sqlite3 DJANGO='Django>=1.7.0,<1.8.0'
+   - python: 2.6
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.7.0,<1.8.0'
+   - python: 2.6
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_pg DJANGO='Django>=1.7.0,<1.8.0'
+   
    - python: 3.2
-     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=Django==1.6.1
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.6.0,<1.7.0'
+   - python: 3.2
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.7.0,<1.8.0'
    - python: 3.2
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
+   
    - python: 3.3
-     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=Django==1.6.1
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.6.0,<1.7.0'
    - python: 3.3
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.7.0,<1.8.0'
+   - python: 3.3
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
+     
+   - python: 3.4
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.6.0,<1.7.0'
+   - python: 3.4
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.7.0,<1.8.0'
+   - python: 3.4
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
+   
+   - python: "pypy3"
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.6.0,<1.7.0'
+   - python: "pypy3"
+     env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO='Django>=1.7.0,<1.8.0'   
+   - python: "pypy3"
      env: DJANGO_SETTINGS_MODULE=transaction_hooks.test.settings_mysql DJANGO=https://github.com/django/django/tarball/master
 
 after_success: coveralls
