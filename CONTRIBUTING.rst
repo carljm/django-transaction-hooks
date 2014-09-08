@@ -59,8 +59,9 @@ directory::
 
     make test
 
-This requires that you have ``python2.6``, ``python2.7``, ``python3.2``, and
-``python3.3`` binaries on your system's shell path.
+This requires that you have ``python2.6``, ``python2.7``, ``python3.2``,
+``python3.3``, ``python3.4``, ``pypy``, and ``pypy3`` binaries on your system's
+shell path.
 
 It also requires that you have local PostgreSQL and MySQL servers running with
 a ``dtc`` database on each.
