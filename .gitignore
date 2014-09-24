@@ -3,3 +3,4 @@ htmlcov/
 .tox/
 doc/_build/
 dist/
+.coverage
