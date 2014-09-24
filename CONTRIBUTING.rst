@@ -64,19 +64,22 @@ This requires that you have ``python2.6``, ``python2.7``, ``python3.2``,
 shell path.
 
 It also requires that you have local PostgreSQL and MySQL servers running with
-a ``dtc`` database on each and a ``test_dtc`` database on the MySQL server.
+a ``dtc`` database on each.
 
-To install PostgreSQL and create required database on Debian-based systems::
+To install PostgreSQL and create the required database on Debian-based
+systems::
 
     $ sudo apt-get install postgresql
     $ createdb dtc
 
-To install MySQL and create required database on  Debian-based systems::
+To install MySQL and create the required database on Debian-based systems::
 
     $ sudo apt-get install mysql-server
-    $ mysql -u root -p
 
-    # Then from the mysql prompt (substitute `your_user_name` as needed):
-    mysql> CREATE USER 'your_user_name'@'localhost';
-    mysql> GRANT ALL PRIVILEGES ON *.* TO 'your_user_name'@'localhost';
+    # Connect to MySQL as a user with permission to create databases:
     mysql> CREATE DATABASE dtc;
+
+You'll also need to run the tests as a user with permission to create
+databases. By default, the tests attempt to connect as a user with your shell
+username. You can override this by setting the environment variables
+``DTC_PG_USERNAME`` and ``DTC_MYSQL_USERNAME``.
