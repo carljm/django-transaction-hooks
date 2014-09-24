@@ -64,4 +64,21 @@ This requires that you have ``python2.6``, ``python2.7``, ``python3.2``,
 shell path.
 
 It also requires that you have local PostgreSQL and MySQL servers running with
-a ``dtc`` database on each.
+a ``dtc`` database on each and a ``test_dtc`` database on the MySQL server.
+
+To install PostgreSQL and create required database on Ubuntu / Linux Mint::
+
+    $ sudo apt-get install postgresql
+    $ createdb dtc
+
+To install MySQL and create required database on  Ubuntu / Linux Mint::
+
+    $ sudo apt-get install mysql-server
+    $ mysql -u root -p
+
+    # Then from the mysql prompt (substitute `your_user_name` as needed):
+    mysql> CREATE DATABASE dtc;
+    mysql> CREATE DATABASE test_dtc;
+    mysql> CREATE USER 'your_user_name'@'localhost';
+    mysql> GRANT ALL PRIVILEGES ON dtc.* TO 'your_user_name'@'localhost';
+    mysql> GRANT ALL PRIVILEGES ON test_dtc.* TO 'your_user_name'@'localhost';
