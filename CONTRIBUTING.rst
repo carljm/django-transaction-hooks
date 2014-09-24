@@ -66,19 +66,17 @@ shell path.
 It also requires that you have local PostgreSQL and MySQL servers running with
 a ``dtc`` database on each and a ``test_dtc`` database on the MySQL server.
 
-To install PostgreSQL and create required database on Ubuntu / Linux Mint::
+To install PostgreSQL and create required database on Debian-based systems::
 
     $ sudo apt-get install postgresql
     $ createdb dtc
 
-To install MySQL and create required database on  Ubuntu / Linux Mint::
+To install MySQL and create required database on  Debian-based systems::
 
     $ sudo apt-get install mysql-server
     $ mysql -u root -p
 
     # Then from the mysql prompt (substitute `your_user_name` as needed):
-    mysql> CREATE DATABASE dtc;
-    mysql> CREATE DATABASE test_dtc;
     mysql> CREATE USER 'your_user_name'@'localhost';
-    mysql> GRANT ALL PRIVILEGES ON dtc.* TO 'your_user_name'@'localhost';
-    mysql> GRANT ALL PRIVILEGES ON test_dtc.* TO 'your_user_name'@'localhost';
+    mysql> GRANT ALL PRIVILEGES ON *.* TO 'your_user_name'@'localhost';
+    mysql> CREATE DATABASE dtc;
