@@ -5,3 +5,4 @@ Anssi Kääriäinen <https://github.com/akaariai>
 Andreas Pelme <https://github.com/pelme>
 Marek Malek <https://github.com/marekmalek>
 Niels Sandholt Busch <https://github.com/nsb>
+Bertrand Bordage <https://github.com/BertrandBordage>

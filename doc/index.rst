@@ -59,9 +59,9 @@ place of ``django.db.backends.postgresql_psycopg2``). For example::
             },
         }
 
-MySQL and SQLite are similarly supported, via
-``transaction_hooks.backends.mysql`` and
-``transaction_hooks.backends.sqlite3``.
+MySQL, SQLite, and PostGIS are similarly supported, via
+``transaction_hooks.backends.mysql``, ``transaction_hooks.backends.sqlite3``,
+and ``transaction_hooks.backends.postgis``.
 
 .. _a few lines of code:
 .. _the mixin:
@@ -70,8 +70,8 @@ Using the mixin
 ~~~~~~~~~~~~~~~
 
 If you're currently using Django's built-in database backend for SQLite,
-Postgres, or MySQL, you can skip this section; just use the appropriate backend
-from ``transaction_hooks.backends`` as outlined above.
+Postgres, PostGIS, or MySQL, you can skip this section; just use the
+appropriate backend from ``transaction_hooks.backends`` as outlined above.
 
 Not using one of those? No worries - all the magic happens in a mixin, so
 making it happen with your favorite database backend may not be hard (no
