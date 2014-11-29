@@ -1,8 +1,8 @@
 CHANGES
 =======
 
-master (unreleased)
--------------------
+0.2 (2014.11.29)
+----------------
 
 * Add built-in PostGIS backend. Merge of GH-16, fixes GH-14. Thanks Bertrand
   Bordage.
