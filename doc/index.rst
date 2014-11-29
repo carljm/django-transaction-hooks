@@ -23,11 +23,11 @@ Prerequisites
 -------------
 
 ``django-transaction-hooks`` supports `Django`_ 1.6.1 and later on Python 2.6,
-2.7, 3.2, and 3.3.
+2.7, 3.2, 3.3 and 3.5.
 
-SQLite3, PostgreSQL, and MySQL are currently the only databases with built-in
-support; you can experiment with whether it works for your favorite database
-backend with just `a few lines of code`_.
+SQLite3, PostgreSQL (+ PostGIS), and MySQL are currently the only databases
+with built-in support; you can experiment with whether it works for your
+favorite database backend with just `a few lines of code`_.
 
 .. _Django: http://www.djangoproject.com/
 
