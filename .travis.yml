@@ -8,42 +8,61 @@ env:
   matrix:
     - TOXENV=py27-django16-sqlite3
     - TOXENV=py27-django16-pg
+    - TOXENV=py27-django16-postgis
     - TOXENV=py27-django17-sqlite3
     - TOXENV=py27-django17-pg
+    - TOXENV=py27-django17-postgis
     - TOXENV=py27-djangotrunk-sqlite3
     - TOXENV=py27-djangotrunk-pg
+    - TOXENV=py27-djangotrunk-postgis
     - TOXENV=py32-django16-sqlite3
     - TOXENV=py32-django16-pg
+    - TOXENV=py32-django16-postgis
     - TOXENV=py32-django17-sqlite3
     - TOXENV=py32-django17-pg
+    - TOXENV=py32-django17-postgis
     - TOXENV=py32-djangotrunk-sqlite3
     - TOXENV=py32-djangotrunk-pg
+    - TOXENV=py32-djangotrunk-postgis
     - TOXENV=py33-django16-sqlite3
     - TOXENV=py33-django16-pg
+    - TOXENV=py33-django16-postgis
     - TOXENV=py33-django17-sqlite3
     - TOXENV=py33-django17-pg
+    - TOXENV=py33-django17-postgis
     - TOXENV=py33-djangotrunk-sqlite3
     - TOXENV=py33-djangotrunk-pg
+    - TOXENV=py33-djangotrunk-postgis
     - TOXENV=py34-django16-sqlite3
     - TOXENV=py34-django16-pg
+    - TOXENV=py34-django16-postgis
     - TOXENV=py34-django17-sqlite3
     - TOXENV=py34-django17-pg
+    - TOXENV=py34-django17-postgis
     - TOXENV=py34-djangotrunk-sqlite3
     - TOXENV=py34-djangotrunk-pg
+    - TOXENV=py34-djangotrunk-postgis
     - TOXENV=pypy-django16-sqlite3
     - TOXENV=pypy-django16-pg
+    - TOXENV=pypy-django16-postgis
     - TOXENV=pypy-django17-sqlite3
     - TOXENV=pypy-django17-pg
+    - TOXENV=pypy-django17-postgis
     - TOXENV=pypy-djangotrunk-sqlite3
     - TOXENV=pypy-djangotrunk-pg
+    - TOXENV=pypy-djangotrunk-postgis
     - TOXENV=pypy3-django16-sqlite3
     - TOXENV=pypy3-django16-pg
+    - TOXENV=pypy3-django16-postgis
     - TOXENV=pypy3-django17-sqlite3
     - TOXENV=pypy3-django17-pg
+    - TOXENV=pypy3-django17-postgis
     - TOXENV=pypy3-djangotrunk-sqlite3
     - TOXENV=pypy3-djangotrunk-pg
+    - TOXENV=pypy3-djangotrunk-postgis
     - TOXENV=py26-django16-sqlite3
     - TOXENV=py26-django16-pg
+    - TOXENV=py26-django16-postgis
     - TOXENV=py26-django16-mysql
     - TOXENV=py27-django16-mysql
     - TOXENV=py27-django17-mysql
@@ -66,6 +85,7 @@ install: travis_retry pip install tox coveralls
 before_script:
   - mysql -e 'create database dtc;'
   - psql -c 'create database dtc;' -U postgres
+  - psql -c 'create extension postgis;' -U postgres dtc
 
 script: tox -e $TOXENV
 
