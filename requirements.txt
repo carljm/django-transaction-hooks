@@ -2,17 +2,17 @@
 
 Django>=1.6.1
 
-tox==1.8.0
-virtualenv==1.11
-pytest-django==2.6
-pytest==2.5.1
-py==1.4.19
-coverage == 3.7.1
-psycopg2==2.5.2
-MySQL-Python==1.2.5
+tox>=1.8.0
+virtualenv>=1.11
+pytest-django>=2.6.0
+pytest>=2.5.1
+py>=1.4.19
+coverage>=3.7.1
+psycopg2>=2.5.2
+MySQL-Python>=1.2.5
 
-Sphinx==1.2
-Jinja2==2.7.2
-Pygments==1.6
-docutils==0.11
-MarkupSafe==0.18
+Sphinx>=1.2
+Jinja2>=2.7.2
+Pygments>=1.6
+docutils>=0.11
+MarkupSafe>=0.18
