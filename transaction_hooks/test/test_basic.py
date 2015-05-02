@@ -173,6 +173,10 @@ class TestConnectionOnCommit(object):
 
         track.assert_done([2])
 
+    @pytest.mark.skipif(
+        not connection.features.test_db_allows_multiple_connections,
+        reason='DB backend does not allow reconnect'
+    )
     def test_hooks_cleared_on_reconnect(self, track):
         with atomic():
             track.do(1)
