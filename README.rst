@@ -8,12 +8,12 @@ django-transaction-hooks
 .. image:: https://coveralls.io/repos/carljm/django-transaction-hooks/badge.png?branch=master
    :target: https://coveralls.io/r/carljm/django-transaction-hooks
    :alt: Test coverage
-.. image:: https://pypip.in/v/django-transaction-hooks/badge.png
+.. image:: https://readthedocs.org/projects/django-transaction-hooks/badge/?version=latest
+   :target: https://readthedocs.org/projects/django-transaction-hooks/?badge=latest
+   :alt: Documentation Status
+.. image:: https://badge.fury.io/py/django-transaction-hooks.svg
    :target: https://pypi.python.org/pypi/django-transaction-hooks
    :alt: Latest version
-.. image:: https://pypip.in/license/django-transaction-hooks/badge.png
-   :target: https://pypi.python.org/pypi/django-transaction-hooks
-   :alt: License
 
 Django database backends with post-transaction-commit callback hooks.
 
