@@ -15,9 +15,6 @@ env:
     - TOXENV=py27-django18-sqlite3
     - TOXENV=py27-django18-pg
     - TOXENV=py27-django18-postgis
-    - TOXENV=py27-djangotrunk-sqlite3
-    - TOXENV=py27-djangotrunk-pg
-    - TOXENV=py27-djangotrunk-postgis
     - TOXENV=py32-django16-sqlite3
     - TOXENV=py32-django16-pg
     - TOXENV=py32-django16-postgis
@@ -27,9 +24,6 @@ env:
     - TOXENV=py32-django18-sqlite3
     - TOXENV=py32-django18-pg
     - TOXENV=py32-django18-postgis
-    - TOXENV=py32-djangotrunk-sqlite3
-    - TOXENV=py32-djangotrunk-pg
-    - TOXENV=py32-djangotrunk-postgis
     - TOXENV=py33-django16-sqlite3
     - TOXENV=py33-django16-pg
     - TOXENV=py33-django16-postgis
