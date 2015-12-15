@@ -22,14 +22,19 @@ wrong.
 Prerequisites
 -------------
 
-``django-transaction-hooks`` supports `Django`_ 1.6.1 and later on Python 2.6,
-2.7, 3.2, 3.3 and 3.4.
+``django-transaction-hooks`` supports `Django`_ 1.6.x through 1.8.x on Python
+2.6, 2.7, 3.2, 3.3 and 3.4.
+
+``django-transaction-hooks`` has been merged into Django 1.9 and is now a
+`built-in feature`_, so this third-party library should not be used with Django
+1.9+.
 
 SQLite3, PostgreSQL (+ PostGIS), and MySQL are currently the only databases
 with built-in support; you can experiment with whether it works for your
 favorite database backend with just `a few lines of code`_.
 
 .. _Django: http://www.djangoproject.com/
+.. _built-in feature: https://docs.djangoproject.com/en/1.9/topics/db/transactions/#performing-actions-after-commit
 
 
 Installation
