@@ -39,9 +39,6 @@ env:
     - TOXENV=py33-django18-sqlite3
     - TOXENV=py33-django18-pg
     - TOXENV=py33-django18-postgis
-    - TOXENV=py33-djangotrunk-sqlite3
-    - TOXENV=py33-djangotrunk-pg
-    - TOXENV=py33-djangotrunk-postgis
     - TOXENV=py34-django16-sqlite3
     - TOXENV=py34-django16-pg
     - TOXENV=py34-django16-postgis
@@ -51,9 +48,6 @@ env:
     - TOXENV=py34-django18-sqlite3
     - TOXENV=py34-django18-pg
     - TOXENV=py34-django18-postgis
-    - TOXENV=py34-djangotrunk-sqlite3
-    - TOXENV=py34-djangotrunk-pg
-    - TOXENV=py34-djangotrunk-postgis
     - TOXENV=pypy-django16-sqlite3
     - TOXENV=pypy-django16-pg
     - TOXENV=pypy-django16-postgis
@@ -63,9 +57,6 @@ env:
     - TOXENV=pypy-django18-sqlite3
     - TOXENV=pypy-django18-pg
     - TOXENV=pypy-django18-postgis
-    - TOXENV=pypy-djangotrunk-sqlite3
-    - TOXENV=pypy-djangotrunk-pg
-    - TOXENV=pypy-djangotrunk-postgis
     - TOXENV=pypy3-django16-sqlite3
     - TOXENV=pypy3-django16-pg
     - TOXENV=pypy3-django16-postgis
@@ -75,9 +66,6 @@ env:
     - TOXENV=pypy3-django18-sqlite3
     - TOXENV=pypy3-django18-pg
     - TOXENV=pypy3-django18-postgis
-    - TOXENV=pypy3-djangotrunk-sqlite3
-    - TOXENV=pypy3-djangotrunk-pg
-    - TOXENV=pypy3-djangotrunk-postgis
     - TOXENV=py26-django16-sqlite3
     - TOXENV=py26-django16-pg
     - TOXENV=py26-django16-postgis
@@ -85,23 +73,18 @@ env:
     - TOXENV=py27-django16-mysql
     - TOXENV=py27-django17-mysql
     - TOXENV=py27-django18-mysql
-    - TOXENV=py27-djangotrunk-mysql
     - TOXENV=py32-django16-mysql
     - TOXENV=py32-django17-mysql
     - TOXENV=py32-django18-mysql
-    - TOXENV=py32-djangotrunk-mysql
     - TOXENV=py33-django16-mysql
     - TOXENV=py33-django17-mysql
     - TOXENV=py33-django18-mysql
-    - TOXENV=py33-djangotrunk-mysql
     - TOXENV=py34-django16-mysql
     - TOXENV=py34-django17-mysql
     - TOXENV=py34-django18-mysql
-    - TOXENV=py34-djangotrunk-mysql
     - TOXENV=pypy-django16-mysql
     - TOXENV=pypy-django17-mysql
     - TOXENV=pypy-django18-mysql
-    - TOXENV=pypy-djangotrunk-mysql
 
 install: travis_retry pip install tox coveralls
 
