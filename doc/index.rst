@@ -206,8 +206,8 @@ If you use `South`_, you will probably need to set the
 (e.g. to ``{'default': 'south.db.postgresql_psycopg2'}``, if you are using
 PostgreSQL).
 
-.. _South: http://south.readthedocs.org
-.. _SOUTH_DATABASE_ADAPTERS: http://south.readthedocs.org/en/latest/settings.html#south-database-adapters
+.. _South: https://south.readthedocs.io
+.. _SOUTH_DATABASE_ADAPTERS: https://south.readthedocs.io/en/latest/settings.html#south-database-adapters
 
 
 Use in tests

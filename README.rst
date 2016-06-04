@@ -27,7 +27,7 @@ Getting Help
 ============
 
 Documentation for django-transaction-hooks is available at
-https://django-transaction-hooks.readthedocs.org/
+https://django-transaction-hooks.readthedocs.io/
 
 This app is available on `PyPI`_ and can be installed with ``pip install
 django-transaction-hooks``.
