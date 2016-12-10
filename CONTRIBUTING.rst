@@ -1,15 +1,23 @@
 Contributing
 ============
 
-Thanks for your interest in contributing! The advice below will help you get
-your issue fixed / pull request merged.
+Thanks for your interest in contributing!
 
-Please file bugs and send pull requests to the `GitHub repository`_ and `issue
-tracker`_.
+Django-transaction-hooks has been merged into Django 1.9. Thus, this package
+will receive no changes other than possibly backports of changes to the same
+feature in core Django (as long as Django 1.8 is supported). So if you've found
+a bug, first check if it exists in core Django, and if so file it on `the
+Django issue tracker`_. If you'd like to suggest a feature, please suggest it
+on the Django issue tracker or `development mailing list`_.
 
+If you find a bug in this third-party package that does not exist in core
+Django, this is the only case where you should file bugs and send pull requests
+to the django-transaction-hooks `GitHub repository`_ and `issue tracker`_.
+
+.. _Django issue tracker: https://code.djangoproject.com/
+.. _development mailing list: https://groups.google.com/forum/#!forum/django-developers
 .. _GitHub repository: https://github.com/carljm/django-transaction-hooks/
 .. _issue tracker: https://github.com/carljm/django-transaction-hooks/issues
-
 
 
 Submitting Issues

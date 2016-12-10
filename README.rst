@@ -17,8 +17,13 @@ django-transaction-hooks
 
 Django database backends with post-transaction-commit callback hooks.
 
-``django-transaction-hooks`` supports `Django`_ 1.6.1 and later on Python 2.6,
-2.7, 3.2, and 3.3.
+This project has been merged into Django and is now core functionality in
+Django 1.9+. It should not be used with any Django version later than 1.8, and
+will not receive any updates except for backports of changes to the same
+functionality in core Django.
+
+``django-transaction-hooks`` supports `Django`_ 1.6.1 through 1.8 on Python
+2.6, 2.7, 3.2, and 3.3, 3.4, and 3.5.
 
 .. _Django: http://www.djangoproject.com/
 
