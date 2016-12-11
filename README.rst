@@ -23,7 +23,7 @@ will not receive any updates except for backports of changes to the same
 functionality in core Django.
 
 ``django-transaction-hooks`` supports `Django`_ 1.6.1 through 1.8 on Python
-2.6, 2.7, 3.2, 3.3, 3.4, and 3.5.
+2.6, 2.7, 3.3, 3.4, and 3.5.
 
 .. _Django: http://www.djangoproject.com/
 
