@@ -22,8 +22,8 @@ Django 1.9+. It should not be used with any Django version later than 1.8, and
 will not receive any updates except for backports of changes to the same
 functionality in core Django.
 
-``django-transaction-hooks`` supports `Django`_ 1.6.1 through 1.8 on Python
-2.6, 2.7, 3.3, 3.4, and 3.5.
+``django-transaction-hooks`` supports `Django`_ 1.7 and 1.8 on Python
+2.7, 3.3, 3.4, and 3.5.
 
 .. _Django: http://www.djangoproject.com/
 

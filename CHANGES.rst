@@ -4,6 +4,9 @@ CHANGES
 master (unreleased)
 -------------------
 
+* Drop support for Python 2.6, Python 3.2, and Django 1.6.
+
+
 0.2 (2014.11.29)
 ----------------
 
