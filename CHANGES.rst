@@ -1,8 +1,12 @@
 CHANGES
 =======
 
-master (unreleased)
--------------------
+0.3 (2020.03.15)
+----------------
+
+* Formally deprecate and archive the project; it is included as part of all
+  Django versions since 1.9. Use the version included in Django and report any
+  bugs or issues to Django; this standalone app is not maintained.
 
 * Drop support for Python 2.6, Python 3.2, and Django 1.6.
 

@@ -27,7 +27,7 @@ setup(
     packages=find_packages(),
     install_requires=['django>=1.6.1'],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 7 - Inactive',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
